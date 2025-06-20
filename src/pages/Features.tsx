@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
@@ -172,25 +173,25 @@ const Features = () => {
           ))}
         </div>
 
-        {/* Customization Features Section */}
+        {/* Customization Features Section - 2 per row on mobile/tablet */}
         <div className="mb-16">
           <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-white mb-12">
             Customization Options
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
             {customizationFeatures.map((feature, index) => (
-              <Card key={index} className="p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                <feature.icon className="h-10 w-10 text-blue-500 mb-4" />
-                <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">
+              <Card key={index} className="p-4 lg:p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                <feature.icon className="h-8 lg:h-10 w-8 lg:w-10 text-blue-500 mb-4" />
+                <h3 className="text-sm lg:text-xl font-semibold text-gray-800 dark:text-white mb-3">
                   {feature.title}
                 </h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                <p className="text-gray-600 dark:text-gray-300 mb-4 text-xs lg:text-base">
                   {feature.description}
                 </p>
                 <ul className="space-y-2">
                   {feature.details.map((detail, idx) => (
-                    <li key={idx} className="flex items-center text-gray-600 dark:text-gray-300">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    <li key={idx} className="flex items-center text-xs lg:text-sm text-gray-600 dark:text-gray-300">
+                      <CheckCircle className="h-3 lg:h-4 w-3 lg:w-4 text-green-500 mr-2" />
                       {detail}
                     </li>
                   ))}
@@ -207,7 +208,7 @@ const Features = () => {
             <p className="text-lg opacity-90 mb-6">
               Experience the benefits of streamlined invoicing and efficient financial management
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 text-center">
               <div>
                 <div className="text-2xl font-bold">Save Time</div>
                 <div className="opacity-90">Automate invoice creation</div>
@@ -216,7 +217,7 @@ const Features = () => {
                 <div className="text-2xl font-bold">Get Paid Faster</div>
                 <div className="opacity-90">Professional invoices</div>
               </div>
-              <div>
+              <div className="col-span-2 lg:col-span-1">
                 <div className="text-2xl font-bold">Stay Organized</div>
                 <div className="opacity-90">Track payments easily</div>
               </div>
