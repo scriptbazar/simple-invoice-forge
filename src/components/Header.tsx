@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Moon, Sun, FileText, Home, Users, Phone } from 'lucide-react';
+import { Moon, Sun, FileText, Home, Users, Phone, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link, useLocation } from 'react-router-dom';
 import {
@@ -40,6 +40,14 @@ export const Header: React.FC<HeaderProps> = ({ isDarkMode, toggleDarkMode }) =>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                   <Home className="h-4 w-4 mr-2" />
                   Home
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link to="/features">
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  <Zap className="h-4 w-4 mr-2" />
+                  Features
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
