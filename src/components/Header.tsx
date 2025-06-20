@@ -1,7 +1,17 @@
 
 import React from 'react';
-import { Moon, Sun, FileText } from 'lucide-react';
+import { Moon, Sun, FileText, Home, Users, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Link, useLocation } from 'react-router-dom';
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
 
 interface HeaderProps {
   isDarkMode: boolean;
@@ -9,6 +19,8 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ isDarkMode, toggleDarkMode }) => {
+  const location = useLocation();
+
   return (
     <header className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -20,6 +32,35 @@ export const Header: React.FC<HeaderProps> = ({ isDarkMode, toggleDarkMode }) =>
             Smart Invoice
           </span>
         </div>
+        
+        <NavigationMenu className="hidden md:block">
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <Link to="/">
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  <Home className="h-4 w-4 mr-2" />
+                  Home
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link to="/about">
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  <Users className="h-4 w-4 mr-2" />
+                  About Us
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link to="/contact">
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  <Phone className="h-4 w-4 mr-2" />
+                  Contact Us
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
         
         <div className="flex items-center space-x-4">
           <Button
