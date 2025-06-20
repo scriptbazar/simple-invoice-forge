@@ -1,13 +1,8 @@
-
 import React, { useState } from 'react';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import { Card } from '@/components/ui/card';
-import { 
-  FileText, Zap, Shield, Globe, Palette, Calculator, 
-  Download, Share2, Edit, Upload, Users, Award,
-  CheckCircle, Clock, DollarSign, Smartphone
-} from 'lucide-react';
+import { CheckCircle, FileText, Zap, Download, Share2, Shield, Globe, Edit, Clock } from 'lucide-react';
 
 const Features = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -17,66 +12,126 @@ const Features = () => {
     document.documentElement.classList.toggle('dark');
   };
 
-  const features = [
+  const mainFeatures = [
     {
       icon: FileText,
       title: "Multiple Invoice Types",
-      description: "Support for retail, GST, freelance, medical, hotel bills and more with customized fields"
+      description: "Retail, GST, Freelance, Medical bills and more",
+      details: [
+        "Retail Invoices",
+        "GST Invoices",
+        "Freelance Invoices",
+        "Medical Bills",
+        "Hotel Bills",
+        "Proforma Invoices",
+      ]
     },
     {
-      icon: Calculator,
+      icon: Zap,
       title: "Real-time Calculations",
-      description: "Automatic calculation of taxes, discounts, totals, and complex pricing structures"
-    },
-    {
-      icon: Palette,
-      title: "Custom Branding",
-      description: "Add your logo, customize colors, themes, and create professional-looking invoices"
+      description: "Automatic tax, discount, and total calculations",
+      details: [
+        "Automatic Tax Calculations",
+        "Discount Calculations",
+        "Total Calculations",
+        "Dynamic Updates",
+        "Instant Preview",
+        "Error Checking",
+      ]
     },
     {
       icon: Download,
-      title: "Multiple Export Formats",
-      description: "Export to PDF, PNG, JPG formats with high-quality output for all your needs"
+      title: "Multi-format Export",
+      description: "Export to PDF, PNG, JPG with one click",
+      details: [
+        "PDF Export",
+        "PNG Export",
+        "JPG Export",
+        "High Resolution",
+        "Customizable Settings",
+        "Batch Export",
+      ]
     },
     {
       icon: Share2,
       title: "Easy Sharing",
-      description: "Share directly via WhatsApp, Email, SMS, or generate shareable links instantly"
-    },
-    {
-      icon: Edit,
-      title: "Edit & Modify",
-      description: "Easily edit existing invoices, duplicate templates, and make quick modifications"
-    },
-    {
-      icon: Upload,
-      title: "Cloud Storage",
-      description: "Save to Google Drive, Dropbox, OneDrive with automatic backup and sync"
+      description: "Share via WhatsApp, Email, SMS instantly",
+      details: [
+        "WhatsApp Sharing",
+        "Email Sharing",
+        "SMS Sharing",
+        "Social Media Sharing",
+        "Link Generation",
+        "QR Code Sharing",
+      ]
     },
     {
       icon: Shield,
       title: "Secure & Private",
-      description: "Your data is processed securely with encryption and privacy protection"
+      description: "Your data is processed locally and securely",
+      details: [
+        "Local Data Processing",
+        "Secure Data Storage",
+        "Encryption",
+        "Privacy Protection",
+        "No Data Logging",
+        "GDPR Compliance",
+      ]
     },
     {
       icon: Globe,
-      title: "Multi-language Support",
-      description: "Available in multiple languages including English, Hindi, and more"
-    },
+      title: "Multi-language",
+      description: "Available in English, Hindi and more",
+      details: [
+        "English Support",
+        "Hindi Support",
+        "Spanish Support",
+        "French Support",
+        "German Support",
+        "Multi-language Support",
+      ]
+    }
+  ];
+
+  const customizationFeatures = [
     {
-      icon: Smartphone,
-      title: "Mobile Responsive",
-      description: "Works perfectly on all devices - desktop, tablet, and mobile phones"
+      icon: Edit,
+      title: "Customizable Templates",
+      description: "Dozens of professional templates for different industries",
+      details: [
+        "Industry-specific Templates",
+        "Customizable Layouts",
+        "Color Scheme Options",
+        "Font Selection",
+        "Logo Integration",
+        "Template Gallery",
+      ]
     },
     {
       icon: Clock,
-      title: "Quick Generation",
-      description: "Create professional invoices in under 2 minutes with our streamlined process"
+      title: "Payment Terms",
+      description: "Set payment terms and due dates",
+      details: [
+        "Net 30",
+        "Net 60",
+        "Customizable Terms",
+        "Due Date Reminders",
+        "Late Payment Fees",
+        "Payment Tracking",
+      ]
     },
     {
-      icon: DollarSign,
-      title: "Tax Compliance",
-      description: "Built-in tax calculations that comply with local and international standards"
+      icon: FileText,
+      title: "Invoice Numbering",
+      description: "Automatic invoice numbering",
+      details: [
+        "Sequential Numbering",
+        "Custom Prefixes",
+        "Date-based Numbering",
+        "Reset Options",
+        "Duplicate Detection",
+        "Invoice History",
+      ]
     }
   ];
 
@@ -85,41 +140,88 @@ const Features = () => {
       <Header isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
       
       <div className="container mx-auto px-4 py-8">
-        {/* Hero Section */}
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold text-gray-800 dark:text-white mb-6 animate-fade-in">
-            Powerful Features
+            Key Features
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Discover all the amazing features that make Smart Invoice Generator the best choice 
-            for your invoicing needs. From basic invoices to complex billing scenarios.
+            Explore the powerful features that make Smart Invoice Generator the perfect choice for your billing needs.
           </p>
         </div>
 
-        {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          {features.map((feature, index) => (
-            <Card key={index} className="p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-              <feature.icon className="h-12 w-12 text-blue-500 mb-4" />
-              <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">
+        {/* Main Features Grid - 2 per row on mobile/tablet */}
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8 mb-16">
+          {mainFeatures.map((feature, index) => (
+            <Card key={index} className="p-4 lg:p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <feature.icon className="h-8 lg:h-12 w-8 lg:w-12 text-blue-500 mb-4" />
+              <h3 className="text-sm lg:text-xl font-semibold text-gray-800 dark:text-white mb-3">
                 {feature.title}
               </h3>
-              <p className="text-gray-600 dark:text-gray-300">
+              <p className="text-gray-600 dark:text-gray-300 mb-4 text-xs lg:text-base">
                 {feature.description}
               </p>
+              <ul className="space-y-2">
+                {feature.details.map((detail, idx) => (
+                  <li key={idx} className="flex items-center text-xs lg:text-sm text-gray-600 dark:text-gray-300">
+                    <CheckCircle className="h-3 lg:h-4 w-3 lg:w-4 text-green-500 mr-2 flex-shrink-0" />
+                    {detail}
+                  </li>
+                ))}
+              </ul>
             </Card>
           ))}
         </div>
 
-        {/* CTA Section */}
-        <Card className="p-8 text-center bg-gradient-to-r from-blue-500 to-purple-600 text-white">
-          <h2 className="text-3xl font-bold mb-4">Ready to Experience These Features?</h2>
-          <p className="text-lg mb-6 opacity-90">
-            Start creating professional invoices today with all these powerful features
-          </p>
-          <a href="/" className="inline-block bg-white text-blue-600 hover:bg-gray-100 font-semibold px-8 py-3 rounded-lg transition-colors">
-            Get Started Now
-          </a>
+        {/* Customization Features Section */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-white mb-12">
+            Customization Options
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {customizationFeatures.map((feature, index) => (
+              <Card key={index} className="p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                <feature.icon className="h-10 w-10 text-blue-500 mb-4" />
+                <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  {feature.description}
+                </p>
+                <ul className="space-y-2">
+                  {feature.details.map((detail, idx) => (
+                    <li key={idx} className="flex items-center text-gray-600 dark:text-gray-300">
+                      <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                      {detail}
+                    </li>
+                  ))}
+                </ul>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* Benefits Section */}
+        <Card className="p-8 mb-8 bg-gradient-to-r from-green-500 to-blue-500 text-white">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold mb-4">Unlock the Full Potential of Your Business</h2>
+            <p className="text-lg opacity-90 mb-6">
+              Experience the benefits of streamlined invoicing and efficient financial management
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+              <div>
+                <div className="text-2xl font-bold">Save Time</div>
+                <div className="opacity-90">Automate invoice creation</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold">Get Paid Faster</div>
+                <div className="opacity-90">Professional invoices</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold">Stay Organized</div>
+                <div className="opacity-90">Track payments easily</div>
+              </div>
+            </div>
+          </div>
         </Card>
       </div>
       

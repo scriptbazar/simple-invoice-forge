@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { InvoiceTypeSelector } from '../components/InvoiceTypeSelector';
 import { InvoiceForm } from '../components/InvoiceForm';
@@ -6,6 +7,7 @@ import { ExportOptions } from '../components/ExportOptions';
 import { FeedbackModal } from '../components/FeedbackModal';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
+import { AdSense, GenericAd } from '../components/AdSense';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { 
@@ -77,6 +79,16 @@ const Index = () => {
     <div className={`min-h-screen transition-colors duration-300 ${isDarkMode ? 'dark bg-gray-900' : 'bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50'}`}>
       <Header isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
       
+      {/* Header Ad */}
+      <div className="container mx-auto px-4 py-2">
+        <AdSense 
+          adSlot="header" 
+          adFormat="horizontal" 
+          className="mb-4"
+          style={{ textAlign: 'center' }}
+        />
+      </div>
+      
       <div className="container mx-auto px-4 py-8">
         {!selectedInvoiceType ? (
           <>
@@ -90,19 +102,19 @@ const Index = () => {
               <InvoiceTypeSelector onTypeSelect={handleInvoiceTypeSelect} />
             </div>
 
-            {/* Features Section */}
+            {/* Features Section - 2 per row on mobile/tablet */}
             <div className="mb-16">
               <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-white mb-12">
                 Why Choose Smart Invoice?
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mb-8">
                 {features.map((feature, index) => (
-                  <Card key={index} className="p-6 text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                    <feature.icon className="h-12 w-12 text-blue-500 mx-auto mb-4" />
-                    <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
+                  <Card key={index} className="p-4 lg:p-6 text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                    <feature.icon className="h-8 lg:h-12 w-8 lg:w-12 text-blue-500 mx-auto mb-4" />
+                    <h3 className="text-sm lg:text-lg font-semibold text-gray-800 dark:text-white mb-2">
                       {feature.title}
                     </h3>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm">
+                    <p className="text-gray-600 dark:text-gray-300 text-xs lg:text-sm">
                       {feature.description}
                     </p>
                   </Card>
@@ -118,6 +130,17 @@ const Index = () => {
               </div>
             </div>
 
+            {/* Middle Ad */}
+            <div className="mb-8">
+              <GenericAd 
+                network="media.net" 
+                width={728} 
+                height={90}
+                className="mx-auto"
+                style={{ maxWidth: '100%' }}
+              />
+            </div>
+
             {/* Benefits Section */}
             <Card className="p-8 mb-8 bg-gradient-to-r from-green-500 to-blue-500 text-white">
               <div className="text-center">
@@ -125,7 +148,7 @@ const Index = () => {
                 <p className="text-lg opacity-90 mb-6">
                   Join thousands of businesses who trust Smart Invoice Generator for their billing needs
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 text-center">
                   <div>
                     <div className="text-2xl font-bold">50,000+</div>
                     <div className="opacity-90">Invoices Created</div>
@@ -134,7 +157,7 @@ const Index = () => {
                     <div className="text-2xl font-bold">99.9%</div>
                     <div className="opacity-90">Uptime</div>
                   </div>
-                  <div>
+                  <div className="col-span-2 lg:col-span-1">
                     <div className="text-2xl font-bold">24/7</div>
                     <div className="opacity-90">Support</div>
                   </div>
@@ -143,37 +166,63 @@ const Index = () => {
             </Card>
           </>
         ) : !showPreview ? (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <Card className="p-6 animate-fade-in">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <Card className="lg:col-span-2 p-6 animate-fade-in">
               <InvoiceForm
                 invoiceType={selectedInvoiceType}
                 onGenerate={handleInvoiceGenerate}
                 onBack={() => setSelectedInvoiceType('')}
               />
             </Card>
-            <Card className="p-6 hidden lg:block">
-              <div className="text-center text-gray-500 dark:text-gray-400 py-20">
-                <p>Invoice preview will appear here</p>
-              </div>
-            </Card>
+            <div className="space-y-4">
+              <Card className="p-6 hidden lg:block">
+                <div className="text-center text-gray-500 dark:text-gray-400 py-20">
+                  <p>Invoice preview will appear here</p>
+                </div>
+              </Card>
+              {/* Sidebar Ad */}
+              <AdSense 
+                adSlot="sidebar" 
+                adFormat="rectangle"
+                style={{ width: '100%', minHeight: '250px' }}
+              />
+            </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <Card className="lg:col-span-2 p-6 animate-fade-in">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <Card className="lg:col-span-3 p-6 animate-fade-in">
               <InvoicePreview
                 invoiceData={invoiceData}
                 invoiceType={selectedInvoiceType}
                 onEdit={() => setShowPreview(false)}
               />
             </Card>
-            <Card className="p-6">
-              <ExportOptions
-                invoiceData={invoiceData}
-                onExportComplete={handleExportComplete}
+            <div className="space-y-4">
+              <Card className="p-6">
+                <ExportOptions
+                  invoiceData={invoiceData}
+                  onExportComplete={handleExportComplete}
+                />
+              </Card>
+              {/* Sidebar Ad */}
+              <AdSense 
+                adSlot="sidebar" 
+                adFormat="rectangle"
+                style={{ width: '100%', minHeight: '250px' }}
               />
-            </Card>
+            </div>
           </div>
         )}
+      </div>
+
+      {/* Footer Ad */}
+      <div className="container mx-auto px-4 py-2">
+        <AdSense 
+          adSlot="footer" 
+          adFormat="horizontal" 
+          className="mb-4"
+          style={{ textAlign: 'center' }}
+        />
       </div>
 
       {showFeedback && (

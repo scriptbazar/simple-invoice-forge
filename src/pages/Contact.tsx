@@ -145,18 +145,18 @@ const Contact = () => {
           </p>
         </div>
 
-        {/* Contact Info Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        {/* Contact Info Grid - 2 per row on mobile/tablet */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-16">
           {contactInfo.map((info, index) => (
-            <Card key={index} className="p-6 text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-              <info.icon className="h-10 w-10 text-blue-500 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
+            <Card key={index} className="p-4 lg:p-6 text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <info.icon className="h-8 lg:h-10 w-8 lg:w-10 text-blue-500 mx-auto mb-4" />
+              <h3 className="text-sm lg:text-lg font-semibold text-gray-800 dark:text-white mb-2">
                 {info.title}
               </h3>
-              <p className="text-blue-600 dark:text-blue-400 font-medium mb-1">
+              <p className="text-blue-600 dark:text-blue-400 font-medium mb-1 text-xs lg:text-base">
                 {info.content}
               </p>
-              <p className="text-gray-600 dark:text-gray-300 text-sm">
+              <p className="text-gray-600 dark:text-gray-300 text-xs lg:text-sm">
                 {info.description}
               </p>
             </Card>
@@ -235,34 +235,36 @@ const Contact = () => {
             </form>
           </Card>
 
-          {/* Support Channels */}
+          {/* Support Channels - 2 per row on mobile */}
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
               Other Ways to Reach Us
             </h2>
             
-            {supportChannels.map((channel, index) => (
-              <Card key={index} className="p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                <div className="flex items-start space-x-4">
-                  <channel.icon className="h-8 w-8 text-blue-500 mt-1" />
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
-                      {channel.title}
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-300 mb-4">
-                      {channel.description}
-                    </p>
-                    <Button variant="outline" size="sm">
-                      {channel.action}
-                    </Button>
+            <div className="grid grid-cols-1 gap-6">
+              {supportChannels.map((channel, index) => (
+                <Card key={index} className="p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                  <div className="flex items-start space-x-4">
+                    <channel.icon className="h-8 w-8 text-blue-500 mt-1" />
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
+                        {channel.title}
+                      </h3>
+                      <p className="text-gray-600 dark:text-gray-300 mb-4">
+                        {channel.description}
+                      </p>
+                      <Button variant="outline" size="sm">
+                        {channel.action}
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              </Card>
-            ))}
+                </Card>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* FAQ Section */}
+        {/* FAQ Section - 2 per row */}
         <div className="mb-16">
           <div className="text-center mb-12">
             <HelpCircle className="h-16 w-16 text-blue-500 mx-auto mb-4" />
@@ -274,27 +276,27 @@ const Contact = () => {
             </p>
           </div>
           
-          <div className="max-w-4xl mx-auto space-y-4">
+          <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4">
             {faqs.map((faq, index) => (
               <Card key={index} className="overflow-hidden">
                 <button
                   onClick={() => toggleFaq(index)}
-                  className="w-full p-6 text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                  className="w-full p-4 lg:p-6 text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                 >
                   <div className="flex justify-between items-center">
-                    <h3 className="text-lg font-medium text-gray-800 dark:text-white">
+                    <h3 className="text-sm lg:text-lg font-medium text-gray-800 dark:text-white pr-4">
                       {faq.q}
                     </h3>
                     {expandedFaq === index ? (
-                      <ChevronUp className="h-5 w-5 text-gray-500" />
+                      <ChevronUp className="h-5 w-5 text-gray-500 flex-shrink-0" />
                     ) : (
-                      <ChevronDown className="h-5 w-5 text-gray-500" />
+                      <ChevronDown className="h-5 w-5 text-gray-500 flex-shrink-0" />
                     )}
                   </div>
                 </button>
                 {expandedFaq === index && (
-                  <div className="px-6 pb-6">
-                    <p className="text-gray-600 dark:text-gray-300">{faq.a}</p>
+                  <div className="px-4 lg:px-6 pb-4 lg:pb-6">
+                    <p className="text-gray-600 dark:text-gray-300 text-sm lg:text-base">{faq.a}</p>
                   </div>
                 )}
               </Card>
