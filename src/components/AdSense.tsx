@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 
 interface AdSenseProps {
@@ -8,33 +7,40 @@ interface AdSenseProps {
   responsive?: boolean;
   style?: React.CSSProperties;
   className?: string;
+  adClient?: string;
 }
 
 export const AdSense: React.FC<AdSenseProps> = ({
   adSlot,
   adFormat = 'auto',
-  fullWidth = false,
   responsive = true,
   style = {},
-  className = ''
+  className = '',
+  adClient = ''
 }) => {
   useEffect(() => {
+    // Only attempt AdSense injection if a real valid client ID is provided
+    if (!adClient || adClient.includes('XXXXXXXXXX')) return;
+
     try {
-      // Load AdSense script if not already loaded
       if (!window.adsbygoogle) {
         const script = document.createElement('script');
         script.async = true;
-        script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
+        script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adClient}`;
         script.crossOrigin = 'anonymous';
         document.head.appendChild(script);
       }
 
-      // Push ad to AdSense queue
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     } catch (error) {
       console.error('AdSense error:', error);
     }
-  }, []);
+  }, [adClient]);
+
+  // Hide container completely when no valid AdSense client ID is set
+  if (!adClient || adClient.includes('XXXXXXXXXX')) {
+    return null;
+  }
 
   return (
     <div className={`adsense-container ${className}`} style={style}>
@@ -44,7 +50,7 @@ export const AdSense: React.FC<AdSenseProps> = ({
           display: 'block',
           ...style
         }}
-        data-ad-client="ca-pub-XXXXXXXXXX" // Replace with your AdSense Publisher ID
+        data-ad-client={adClient}
         data-ad-slot={adSlot}
         data-ad-format={adFormat}
         data-full-width-responsive={responsive ? 'true' : 'false'}
@@ -53,7 +59,6 @@ export const AdSense: React.FC<AdSenseProps> = ({
   );
 };
 
-// Generic Ad Network Component for other networks
 interface GenericAdProps {
   network: 'media.net' | 'propeller' | 'adsense' | 'custom';
   adCode?: string;
@@ -71,28 +76,6 @@ export const GenericAd: React.FC<GenericAdProps> = ({
   className = '',
   style = {}
 }) => {
-  useEffect(() => {
-    // Load network-specific scripts
-    switch (network) {
-      case 'media.net':
-        if (!document.querySelector('script[src*="media.net"]')) {
-          const script = document.createElement('script');
-          script.async = true;
-          script.src = 'https://contextual.media.net/dmedianet.js?cid=8CU2W4S2Q';
-          document.head.appendChild(script);
-        }
-        break;
-      case 'propeller':
-        if (!document.querySelector('script[src*="propellerads"]')) {
-          const script = document.createElement('script');
-          script.async = true;
-          script.src = 'https://www.propellerads.com/js/link.js';
-          document.head.appendChild(script);
-        }
-        break;
-    }
-  }, [network]);
-
   if (network === 'custom' && adCode) {
     return (
       <div 
@@ -103,35 +86,13 @@ export const GenericAd: React.FC<GenericAdProps> = ({
     );
   }
 
-  return (
-    <div 
-      className={`ad-container ${className} flex items-center justify-center bg-gray-100 dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600`}
-      style={{ width, height, ...style }}
-    >
-      <div className="text-center text-gray-500 dark:text-gray-400">
-        <p className="text-sm">{network.toUpperCase()} Ad</p>
-        <p className="text-xs">{width} x {height}</p>
-      </div>
-    </div>
-  );
+  // Hide placeholder ads in production unless explicitly custom
+  return null;
 };
 
-// Ad placement hook for managing ad positions
-export const useAdPlacements = () => {
-  const placements = {
-    header: 'ca-pub-XXXXXXXXXX_header',
-    sidebar: 'ca-pub-XXXXXXXXXX_sidebar',
-    footer: 'ca-pub-XXXXXXXXXX_footer',
-    article: 'ca-pub-XXXXXXXXXX_article',
-    mobile: 'ca-pub-XXXXXXXXXX_mobile'
-  };
-
-  return placements;
-};
-
-// Declare global types for AdSense
+// Global types for AdSense
 declare global {
   interface Window {
-    adsbygoogle: any[];
+    adsbygoogle: Record<string, unknown>[];
   }
 }

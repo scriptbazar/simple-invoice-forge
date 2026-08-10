@@ -1,9 +1,10 @@
-
 import React, { useState } from 'react';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import { Card } from '@/components/ui/card';
-import { CheckCircle, FileText, Zap, Download, Share2, Shield, Globe, Edit, Clock } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { CheckCircle, FileText, Zap, Download, Share2, Shield, Globe, Edit, Clock, ArrowRight, Sparkles } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Features = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -17,154 +18,125 @@ const Features = () => {
     {
       icon: FileText,
       title: "Multiple Invoice Types",
-      description: "Retail, GST, Freelance, Medical bills and more",
+      description: "Tailored templates for every business model and industry requirement.",
       details: [
-        "Retail Invoices",
-        "GST Invoices",
-        "Freelance Invoices",
-        "Medical Bills",
-        "Hotel Bills",
-        "Proforma Invoices",
+        "Retail & POS Invoices",
+        "GST Compliant Tax Bills",
+        "Freelance & Service Billing",
+        "Medical & Healthcare Bills",
+        "Hotel & Lodging Bills",
+        "Proforma Quotations",
       ]
     },
     {
       icon: Zap,
       title: "Real-time Calculations",
-      description: "Automatic tax, discount, and total calculations",
+      description: "Automated standard GST tax, discount rates & grand totals.",
       details: [
-        "Automatic Tax Calculations",
-        "Discount Calculations",
-        "Total Calculations",
-        "Dynamic Updates",
-        "Instant Preview",
-        "Error Checking",
+        "Automatic Taxable Value Math",
+        "Item-level Discounting",
+        "Grand Total Calculation",
+        "Multi-item Line Aggregation",
+        "Live Preview Updates",
+        "Zero Math Error Risk",
       ]
     },
     {
       icon: Download,
       title: "Multi-format Export",
-      description: "Export to PDF, PNG, JPG with one click",
+      description: "High-resolution file generation in standard image & document formats.",
       details: [
-        "PDF Export",
-        "PNG Export",
-        "JPG Export",
-        "High Resolution",
-        "Customizable Settings",
-        "Batch Export",
+        "Vector Crisp PDF Export",
+        "PNG Image Output",
+        "JPG Image Output",
+        "Print Ready Page Layout",
+        "A4 Page Scaling",
+        "Custom Logo Embedding",
       ]
     },
     {
       icon: Share2,
-      title: "Easy Sharing",
-      description: "Share via WhatsApp, Email, SMS instantly",
+      title: "Instant Sharing Options",
+      description: "Share invoices directly with clients across popular channels.",
       details: [
-        "WhatsApp Sharing",
-        "Email Sharing",
-        "SMS Sharing",
-        "Social Media Sharing",
-        "Link Generation",
-        "QR Code Sharing",
+        "One-click WhatsApp Share",
+        "Native Mail Client Trigger",
+        "Summary Link Copy",
+        "Native Browser Sharing",
+        "Print Window Trigger",
+        "Mobile-friendly Previews",
       ]
     },
     {
       icon: Shield,
-      title: "Secure & Private",
-      description: "Your data is processed locally and securely",
+      title: "100% Privacy & Security",
+      description: "Client data is processed exclusively inside your local browser.",
       details: [
-        "Local Data Processing",
-        "Secure Data Storage",
-        "Encryption",
-        "Privacy Protection",
-        "No Data Logging",
-        "GDPR Compliance",
+        "Local Browser Storage",
+        "No Cloud Tracking",
+        "No Third-party Data Leak",
+        "Zero Account Sign-up Required",
+        "Instant Offline Availability",
+        "GDPR Compliant Architecture",
       ]
     },
     {
       icon: Globe,
-      title: "Multi-language",
-      description: "Available in English, Hindi and more",
+      title: "Global Multi-Currency",
+      description: "Support for global business billing currencies & symbols.",
       details: [
-        "English Support",
-        "Hindi Support",
-        "Spanish Support",
-        "French Support",
-        "German Support",
-        "Multi-language Support",
-      ]
-    }
-  ];
-
-  const customizationFeatures = [
-    {
-      icon: Edit,
-      title: "Customizable Templates",
-      description: "Dozens of professional templates for different industries",
-      details: [
-        "Industry-specific Templates",
-        "Customizable Layouts",
-        "Color Scheme Options",
-        "Font Selection",
-        "Logo Integration",
-        "Template Gallery",
-      ]
-    },
-    {
-      icon: Clock,
-      title: "Payment Terms",
-      description: "Set payment terms and due dates",
-      details: [
-        "Net 30",
-        "Net 60",
-        "Customizable Terms",
-        "Due Date Reminders",
-        "Late Payment Fees",
-        "Payment Tracking",
-      ]
-    },
-    {
-      icon: FileText,
-      title: "Invoice Numbering",
-      description: "Automatic invoice numbering",
-      details: [
-        "Sequential Numbering",
-        "Custom Prefixes",
-        "Date-based Numbering",
-        "Reset Options",
-        "Duplicate Detection",
-        "Invoice History",
+        "Indian Rupee (₹)",
+        "US Dollar ($)",
+        "Euro (€)",
+        "British Pound (£)",
+        "UAE Dirham (AED)",
+        "Canadian & Australian Dollars",
       ]
     }
   ];
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${isDarkMode ? 'dark bg-gray-900' : 'bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50'}`}>
+    <div className={`min-h-screen transition-colors duration-300 relative overflow-hidden ${isDarkMode ? 'dark bg-gray-950 text-white' : 'bg-gradient-to-br from-blue-50/80 via-indigo-50/50 to-purple-50/80 text-gray-900'}`}>
+      
+      {/* Glow Orbs */}
+      <div className="absolute top-10 left-1/3 w-96 h-96 bg-blue-500/10 dark:bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
+
       <Header isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
       
-      <div className="container mx-auto px-4 py-8">
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold text-gray-800 dark:text-white mb-6 animate-fade-in">
-            Key Features
+      <div className="container mx-auto px-4 py-12 relative z-10">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-blue-500/10 dark:bg-blue-400/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 text-xs font-bold mb-4">
+            <Sparkles className="h-3.5 w-3.5" />
+            <span>Built for Modern Business Needs</span>
+          </div>
+          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-6">
+            Powerful Features for <span className="gradient-text">Effortless Billing</span>
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Explore the powerful features that make Smart Invoice Generator the perfect choice for your billing needs.
+          <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+            Everything you need to generate, customize, and issue professional invoices without complicated software setup.
           </p>
         </div>
 
-        {/* Main Features Grid - 2 per row on mobile/tablet */}
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8 mb-16">
+        {/* Features Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
           {mainFeatures.map((feature, index) => (
-            <Card key={index} className="p-4 lg:p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-              <feature.icon className="h-8 lg:h-12 w-8 lg:w-12 text-blue-500 mb-4" />
-              <h3 className="text-sm lg:text-xl font-semibold text-gray-800 dark:text-white mb-3">
-                {feature.title}
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300 mb-4 text-xs lg:text-base">
-                {feature.description}
-              </p>
-              <ul className="space-y-2">
+            <Card key={index} className="p-6 glass-card rounded-2xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between group">
+              <div>
+                <div className="p-3.5 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white w-fit mb-5 shadow-lg shadow-blue-500/20 group-hover:scale-110 transition-transform">
+                  <feature.icon className="h-6 w-6" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                  {feature.title}
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+                  {feature.description}
+                </p>
+              </div>
+
+              <ul className="space-y-2.5 border-t border-gray-200/60 dark:border-gray-800/80 pt-4">
                 {feature.details.map((detail, idx) => (
-                  <li key={idx} className="flex items-center text-xs lg:text-sm text-gray-600 dark:text-gray-300">
-                    <CheckCircle className="h-3 lg:h-4 w-3 lg:w-4 text-green-500 mr-2 flex-shrink-0" />
+                  <li key={idx} className="flex items-center text-xs font-medium text-gray-700 dark:text-gray-300">
+                    <CheckCircle className="h-4 w-4 text-emerald-500 mr-2 shrink-0" />
                     {detail}
                   </li>
                 ))}
@@ -173,56 +145,18 @@ const Features = () => {
           ))}
         </div>
 
-        {/* Customization Features Section - 2 per row on mobile/tablet */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-white mb-12">
-            Customization Options
-          </h2>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
-            {customizationFeatures.map((feature, index) => (
-              <Card key={index} className="p-4 lg:p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                <feature.icon className="h-8 lg:h-10 w-8 lg:w-10 text-blue-500 mb-4" />
-                <h3 className="text-sm lg:text-xl font-semibold text-gray-800 dark:text-white mb-3">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-4 text-xs lg:text-base">
-                  {feature.description}
-                </p>
-                <ul className="space-y-2">
-                  {feature.details.map((detail, idx) => (
-                    <li key={idx} className="flex items-center text-xs lg:text-sm text-gray-600 dark:text-gray-300">
-                      <CheckCircle className="h-3 lg:h-4 w-3 lg:w-4 text-green-500 mr-2" />
-                      {detail}
-                    </li>
-                  ))}
-                </ul>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        {/* Benefits Section */}
-        <Card className="p-8 mb-8 bg-gradient-to-r from-green-500 to-blue-500 text-white">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold mb-4">Unlock the Full Potential of Your Business</h2>
-            <p className="text-lg opacity-90 mb-6">
-              Experience the benefits of streamlined invoicing and efficient financial management
-            </p>
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 text-center">
-              <div>
-                <div className="text-2xl font-bold">Save Time</div>
-                <div className="opacity-90">Automate invoice creation</div>
-              </div>
-              <div>
-                <div className="text-2xl font-bold">Get Paid Faster</div>
-                <div className="opacity-90">Professional invoices</div>
-              </div>
-              <div className="col-span-2 lg:col-span-1">
-                <div className="text-2xl font-bold">Stay Organized</div>
-                <div className="opacity-90">Track payments easily</div>
-              </div>
-            </div>
-          </div>
+        {/* Call to Action Card */}
+        <Card className="p-10 mb-12 rounded-3xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white text-center shadow-2xl">
+          <h2 className="text-3xl font-extrabold mb-3">Ready to Create Your First Invoice?</h2>
+          <p className="text-base text-blue-100 max-w-xl mx-auto mb-6 opacity-90">
+            No signup, no credit card required. Generate and download your invoice instantly.
+          </p>
+          <Link to="/">
+            <Button size="lg" className="rounded-xl bg-white text-blue-700 hover:bg-blue-50 font-bold px-8 shadow-xl">
+              Create Invoice Now
+              <ArrowRight className="h-4 w-4 ml-2" />
+            </Button>
+          </Link>
         </Card>
       </div>
       

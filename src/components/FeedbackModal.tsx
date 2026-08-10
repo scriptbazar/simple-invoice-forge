@@ -1,9 +1,8 @@
-
 import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Star } from 'lucide-react';
+import { Star, X } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 
 interface FeedbackModalProps {
@@ -31,7 +30,6 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({ onClose }) => {
 
   const handleFeedbackSubmit = async () => {
     try {
-      // This would submit to backend (Firebase/MongoDB)
       const feedbackData = {
         rating,
         satisfied,
@@ -40,9 +38,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({ onClose }) => {
       };
       
       console.log('Submitting feedback:', feedbackData);
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 500));
       
       toast({
         title: "Thank you for your feedback!",
@@ -85,91 +81,106 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({ onClose }) => {
   };
 
   return (
-    <Dialog open={true} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle className="text-center">
+    <AnimatePresence>
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-3xl p-6 shadow-2xl w-full max-w-md relative space-y-4"
+        >
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onClose}
+            className="absolute top-4 right-4 rounded-full p-2"
+          >
+            <X className="h-4 w-4" />
+          </Button>
+
+          <h2 className="text-xl font-extrabold text-center text-gray-900 dark:text-white pt-2">
             {step === 1 ? 'Rate Your Experience' : 'Tell Us More'}
-          </DialogTitle>
-        </DialogHeader>
+          </h2>
 
-        {step === 1 && (
-          <div className="py-6">
-            <div className="text-center mb-6">
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
-                How would you rate our Smart Invoice Generator?
-              </p>
-              <div className="flex justify-center space-x-2">
-                {renderStars()}
-              </div>
-              {rating > 0 && (
-                <p className="mt-4 text-sm text-gray-500">
-                  {rating === 1 && "We're sorry to hear that. We'll do better!"}
-                  {rating === 2 && "Thanks for the feedback. We'll improve!"}
-                  {rating === 3 && "Good! We appreciate your feedback."}
-                  {rating === 4 && "Great! We're glad you enjoyed it."}
-                  {rating === 5 && "Excellent! Thank you so much!"}
+          {step === 1 && (
+            <div className="py-4">
+              <div className="text-center mb-6">
+                <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+                  How would you rate your experience with Smart Invoice Generator?
                 </p>
-              )}
-            </div>
-            <div className="flex justify-center space-x-3">
-              <Button variant="outline" onClick={onClose}>
-                Skip
-              </Button>
-              <Button onClick={handleRatingSubmit}>
-                Continue
-              </Button>
-            </div>
-          </div>
-        )}
-
-        {step === 2 && (
-          <div className="py-6 space-y-6">
-            <div className="text-center">
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
-                Are you satisfied with this tool?
-              </p>
-              <div className="flex justify-center space-x-4">
-                <Button
-                  variant={satisfied === true ? "default" : "outline"}
-                  onClick={() => setSatisfied(true)}
-                  className="px-8"
-                >
-                  Yes
+                <div className="flex justify-center space-x-2">
+                  {renderStars()}
+                </div>
+                {rating > 0 && (
+                  <p className="mt-4 text-xs text-gray-500">
+                    {rating === 1 && "We're sorry to hear that. We'll do better!"}
+                    {rating === 2 && "Thanks for the feedback. We'll improve!"}
+                    {rating === 3 && "Good! We appreciate your feedback."}
+                    {rating === 4 && "Great! We're glad you enjoyed it."}
+                    {rating === 5 && "Excellent! Thank you so much!"}
+                  </p>
+                )}
+              </div>
+              <div className="flex justify-center space-x-3">
+                <Button variant="outline" onClick={onClose} className="rounded-xl text-xs">
+                  Skip
                 </Button>
-                <Button
-                  variant={satisfied === false ? "default" : "outline"}
-                  onClick={() => setSatisfied(false)}
-                  className="px-8"
-                >
-                  No
+                <Button onClick={handleRatingSubmit} className="rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs">
+                  Continue
                 </Button>
               </div>
             </div>
+          )}
 
-            <div>
-              <label className="block text-sm font-medium mb-2">
-                Additional Feedback (Optional)
-              </label>
-              <Textarea
-                value={feedback}
-                onChange={(e) => setFeedback(e.target.value)}
-                placeholder="Tell us what you liked or how we can improve..."
-                rows={4}
-              />
-            </div>
+          {step === 2 && (
+            <div className="py-4 space-y-5">
+              <div className="text-center">
+                <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
+                  Are you satisfied with this tool?
+                </p>
+                <div className="flex justify-center space-x-3">
+                  <Button
+                    variant={satisfied === true ? "default" : "outline"}
+                    onClick={() => setSatisfied(true)}
+                    className="px-6 rounded-xl text-xs"
+                  >
+                    Yes
+                  </Button>
+                  <Button
+                    variant={satisfied === false ? "default" : "outline"}
+                    onClick={() => setSatisfied(false)}
+                    className="px-6 rounded-xl text-xs"
+                  >
+                    No
+                  </Button>
+                </div>
+              </div>
 
-            <div className="flex justify-center space-x-3">
-              <Button variant="outline" onClick={onClose}>
-                Skip
-              </Button>
-              <Button onClick={handleFeedbackSubmit}>
-                Submit Feedback
-              </Button>
+              <div>
+                <label className="block text-xs font-semibold mb-1.5 text-gray-700 dark:text-gray-300">
+                  Additional Feedback (Optional)
+                </label>
+                <Textarea
+                  value={feedback}
+                  onChange={(e) => setFeedback(e.target.value)}
+                  placeholder="Tell us what you liked or how we can improve..."
+                  rows={3}
+                  className="rounded-xl text-xs"
+                />
+              </div>
+
+              <div className="flex justify-center space-x-3">
+                <Button variant="outline" onClick={onClose} className="rounded-xl text-xs">
+                  Skip
+                </Button>
+                <Button onClick={handleFeedbackSubmit} className="rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs">
+                  Submit Feedback
+                </Button>
+              </div>
             </div>
-          </div>
-        )}
-      </DialogContent>
-    </Dialog>
+          )}
+        </motion.div>
+      </div>
+    </AnimatePresence>
   );
 };

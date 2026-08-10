@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -10,20 +9,22 @@ import {
   Printer, 
   Share2, 
   Copy,
-  Cloud,
   MessageCircle,
   Mail
 } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { exportToPDF, exportToPNG, exportToJPG } from '../utils/exportUtils';
+import { InvoiceData } from '@/types/invoice';
 
 interface ExportOptionsProps {
-  invoiceData: any;
+  invoiceData: InvoiceData;
   onExportComplete: () => void;
 }
 
 export const ExportOptions: React.FC<ExportOptionsProps> = ({ invoiceData, onExportComplete }) => {
   const [isExporting, setIsExporting] = useState(false);
+
+  const symbol = invoiceData.currencySymbol || invoiceData.currency || '$';
 
   const handleExportToPDF = async () => {
     setIsExporting(true);
@@ -40,7 +41,7 @@ export const ExportOptions: React.FC<ExportOptionsProps> = ({ invoiceData, onExp
       console.error('PDF Export error:', error);
       toast({
         title: "Export failed",
-        description: "Failed to generate PDF",
+        description: "Failed to generate PDF. Please try again.",
         variant: "destructive"
       });
     } finally {
@@ -103,18 +104,18 @@ export const ExportOptions: React.FC<ExportOptionsProps> = ({ invoiceData, onExp
   };
 
   const shareViaWhatsApp = () => {
-    const text = `Invoice ${invoiceData.invoiceNumber} - Total: ${invoiceData.currency} ${invoiceData.totals.grandTotal.toFixed(2)}`;
+    const text = `Invoice #${invoiceData.invoiceNumber} - Total Amount: ${symbol}${invoiceData.totals.grandTotal.toFixed(2)}`;
     const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
     toast({
       title: "WhatsApp opened",
-      description: "Share your invoice via WhatsApp"
+      description: "Share your invoice summary via WhatsApp"
     });
   };
 
   const shareViaEmail = () => {
-    const subject = `Invoice ${invoiceData.invoiceNumber}`;
-    const body = `Please find attached invoice ${invoiceData.invoiceNumber} for ${invoiceData.currency} ${invoiceData.totals.grandTotal.toFixed(2)}.`;
+    const subject = `Invoice #${invoiceData.invoiceNumber}`;
+    const body = `Dear ${invoiceData.recipientName},\n\nPlease find invoice #${invoiceData.invoiceNumber} details.\nTotal Amount: ${symbol}${invoiceData.totals.grandTotal.toFixed(2)}.\n\nThank you!`;
     const url = `mailto:${invoiceData.recipientEmail || ''}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.open(url);
     toast({
@@ -123,18 +124,18 @@ export const ExportOptions: React.FC<ExportOptionsProps> = ({ invoiceData, onExp
     });
   };
 
-  const copyInvoiceLink = async () => {
+  const copyInvoiceDetails = async () => {
     try {
-      const link = `${window.location.origin}/invoice/${invoiceData.invoiceNumber}`;
-      await navigator.clipboard.writeText(link);
+      const summaryText = `Invoice #${invoiceData.invoiceNumber}\nFrom: ${invoiceData.senderName}\nTo: ${invoiceData.recipientName}\nTotal Amount: ${symbol}${invoiceData.totals.grandTotal.toFixed(2)}`;
+      await navigator.clipboard.writeText(summaryText);
       toast({
-        title: "Link copied",
-        description: "Invoice link has been copied to clipboard"
+        title: "Copied to clipboard",
+        description: "Invoice details copied to clipboard"
       });
     } catch (error) {
       toast({
         title: "Copy failed",
-        description: "Failed to copy link to clipboard",
+        description: "Failed to copy to clipboard",
         variant: "destructive"
       });
     }
@@ -145,12 +146,12 @@ export const ExportOptions: React.FC<ExportOptionsProps> = ({ invoiceData, onExp
       try {
         await navigator.share({
           title: `Invoice ${invoiceData.invoiceNumber}`,
-          text: `Invoice for ${invoiceData.currency} ${invoiceData.totals.grandTotal.toFixed(2)}`,
+          text: `Invoice #${invoiceData.invoiceNumber} for ${symbol}${invoiceData.totals.grandTotal.toFixed(2)}`,
           url: window.location.href
         });
         toast({
           title: "Shared successfully",
-          description: "Invoice has been shared"
+          description: "Invoice details shared"
         });
       } catch (error) {
         console.log('Error sharing:', error);
@@ -158,51 +159,48 @@ export const ExportOptions: React.FC<ExportOptionsProps> = ({ invoiceData, onExp
     } else {
       toast({
         title: "Share not supported",
-        description: "Native sharing is not supported on this device",
+        description: "Native sharing is not supported on this browser",
         variant: "destructive"
       });
     }
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 print:hidden">
       <h3 className="text-xl font-bold text-gray-800 dark:text-white">Export & Share</h3>
 
       {/* Download Options */}
-      <Card className="p-4">
-        <h4 className="font-semibold mb-4 flex items-center">
-          <Download className="h-5 w-5 mr-2" />
+      <Card className="p-4 space-y-3">
+        <h4 className="font-semibold text-sm flex items-center text-gray-700 dark:text-gray-200">
+          <Download className="h-4 w-4 mr-2" />
           Download Options
         </h4>
-        <div className="space-y-3">
-          <Button
-            onClick={handleExportToPDF}
-            disabled={isExporting}
-            className="w-full justify-start"
-            variant="outline"
-          >
-            <FileText className="h-4 w-4 mr-2" />
-            {isExporting ? 'Generating PDF...' : 'Download as PDF'}
-          </Button>
-          <Button
-            onClick={handleExportToPNG}
-            disabled={isExporting}
-            className="w-full justify-start"
-            variant="outline"
-          >
-            <Image className="h-4 w-4 mr-2" />
-            {isExporting ? 'Generating PNG...' : 'Download as PNG'}
-          </Button>
-          <Button
-            onClick={handleExportToJPG}
-            disabled={isExporting}
-            className="w-full justify-start"
-            variant="outline"
-          >
-            <Image className="h-4 w-4 mr-2" />
-            {isExporting ? 'Generating JPG...' : 'Download as JPG'}
-          </Button>
-        </div>
+        <Button
+          onClick={handleExportToPDF}
+          disabled={isExporting}
+          className="w-full justify-start bg-blue-600 hover:bg-blue-700 text-white"
+        >
+          <FileText className="h-4 w-4 mr-2" />
+          {isExporting ? 'Generating PDF...' : 'Download PDF'}
+        </Button>
+        <Button
+          onClick={handleExportToPNG}
+          disabled={isExporting}
+          className="w-full justify-start"
+          variant="outline"
+        >
+          <Image className="h-4 w-4 mr-2" />
+          {isExporting ? 'Generating PNG...' : 'Download PNG'}
+        </Button>
+        <Button
+          onClick={handleExportToJPG}
+          disabled={isExporting}
+          className="w-full justify-start"
+          variant="outline"
+        >
+          <Image className="h-4 w-4 mr-2" />
+          {isExporting ? 'Generating JPG...' : 'Download JPG'}
+        </Button>
       </Card>
 
       {/* Print Option */}
@@ -218,27 +216,27 @@ export const ExportOptions: React.FC<ExportOptionsProps> = ({ invoiceData, onExp
       </Card>
 
       {/* Share Options */}
-      <Card className="p-4">
-        <h4 className="font-semibold mb-4 flex items-center">
-          <Share2 className="h-5 w-5 mr-2" />
+      <Card className="p-4 space-y-3">
+        <h4 className="font-semibold text-sm flex items-center text-gray-700 dark:text-gray-200">
+          <Share2 className="h-4 w-4 mr-2" />
           Share Options
         </h4>
-        <div className="space-y-3">
-          <Button
-            onClick={shareViaWhatsApp}
-            className="w-full justify-start bg-green-600 hover:bg-green-700"
-          >
-            <MessageCircle className="h-4 w-4 mr-2" />
-            Share via WhatsApp
-          </Button>
-          <Button
-            onClick={shareViaEmail}
-            className="w-full justify-start"
-            variant="outline"
-          >
-            <Mail className="h-4 w-4 mr-2" />
-            Share via Email
-          </Button>
+        <Button
+          onClick={shareViaWhatsApp}
+          className="w-full justify-start bg-green-600 hover:bg-green-700 text-white"
+        >
+          <MessageCircle className="h-4 w-4 mr-2" />
+          WhatsApp
+        </Button>
+        <Button
+          onClick={shareViaEmail}
+          className="w-full justify-start"
+          variant="outline"
+        >
+          <Mail className="h-4 w-4 mr-2" />
+          Email
+        </Button>
+        {navigator.share && (
           <Button
             onClick={shareNative}
             className="w-full justify-start"
@@ -247,50 +245,37 @@ export const ExportOptions: React.FC<ExportOptionsProps> = ({ invoiceData, onExp
             <Share2 className="h-4 w-4 mr-2" />
             Native Share
           </Button>
-        </div>
+        )}
       </Card>
 
-      {/* Copy Link */}
+      {/* Copy Details */}
       <Card className="p-4">
         <Button
-          onClick={copyInvoiceLink}
+          onClick={copyInvoiceDetails}
           className="w-full justify-start"
           variant="outline"
         >
           <Copy className="h-4 w-4 mr-2" />
-          Copy Invoice Link
+          Copy Invoice Details
         </Button>
-      </Card>
-
-      {/* Cloud Upload (Future Feature) */}
-      <Card className="p-4 opacity-60">
-        <h4 className="font-semibold mb-4 flex items-center">
-          <Cloud className="h-5 w-5 mr-2" />
-          Cloud Upload (Coming Soon)
-        </h4>
-        <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-          <p>• Google Drive</p>
-          <p>• Dropbox</p>
-          <p>• OneDrive</p>
-        </div>
       </Card>
 
       <Separator />
 
       {/* Invoice Summary */}
-      <Card className="p-4 bg-blue-50 dark:bg-blue-900/20">
-        <h4 className="font-semibold mb-2">Invoice Summary</h4>
-        <div className="text-sm space-y-1">
+      <Card className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800">
+        <h4 className="font-semibold text-sm mb-2 text-blue-900 dark:text-blue-200">Summary</h4>
+        <div className="text-xs space-y-1.5">
           <div className="flex justify-between">
-            <span>Invoice #:</span>
-            <span>{invoiceData.invoiceNumber}</span>
+            <span className="text-gray-600 dark:text-gray-400">Invoice #:</span>
+            <span className="font-semibold">{invoiceData.invoiceNumber}</span>
           </div>
           <div className="flex justify-between">
-            <span>Total Amount:</span>
-            <span className="font-bold">{invoiceData.currency} {invoiceData.totals.grandTotal.toFixed(2)}</span>
+            <span className="text-gray-600 dark:text-gray-400">Total Amount:</span>
+            <span className="font-bold text-blue-600 dark:text-blue-400">{symbol}{invoiceData.totals.grandTotal.toFixed(2)}</span>
           </div>
           <div className="flex justify-between">
-            <span>Items:</span>
+            <span className="text-gray-600 dark:text-gray-400">Items:</span>
             <span>{invoiceData.items.length}</span>
           </div>
         </div>

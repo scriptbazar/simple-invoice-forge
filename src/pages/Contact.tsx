@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
@@ -8,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { 
   Mail, Phone, MapPin, Clock, Send, MessageCircle, 
-  ChevronDown, ChevronUp, HelpCircle 
+  ChevronDown, ChevronUp, HelpCircle, Sparkles 
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
@@ -20,7 +19,7 @@ const Contact = () => {
     subject: '',
     message: ''
   });
-  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+  const [expandedFaq, setExpandedFaq] = useState<number | null>(0);
   const { toast } = useToast();
 
   const toggleDarkMode = () => {
@@ -39,7 +38,7 @@ const Contact = () => {
     e.preventDefault();
     toast({
       title: "Message Sent!",
-      description: "Thank you for your message. We'll get back to you soon.",
+      description: "Thank you for reaching out. We will get back to you shortly.",
     });
     setFormData({ name: '', email: '', subject: '', message: '' });
   };
@@ -51,130 +50,93 @@ const Contact = () => {
   const contactInfo = [
     {
       icon: Mail,
-      title: "Email Us",
+      title: "Email Support",
       content: "support@smartinvoice.com",
-      description: "Send us an email anytime"
+      description: "Average response within 2 hours"
     },
     {
       icon: Phone,
-      title: "Call Us",
+      title: "Direct Call",
       content: "+1 (555) 123-4567",
-      description: "Mon-Fri from 8am to 6pm"
+      description: "Mon-Fri from 9am to 6pm EST"
     },
     {
       icon: MapPin,
-      title: "Visit Us",
-      content: "123 Business St, Tech City, TC 12345",
-      description: "Our office headquarters"
+      title: "Global Platform",
+      content: "Smart Invoice Forge Inc.",
+      description: "Digital web application worldwide"
     },
     {
       icon: Clock,
-      title: "Business Hours",
-      content: "Monday - Friday: 8am - 6pm",
-      description: "Saturday: 9am - 4pm"
+      title: "Platform Availability",
+      content: "24/7 / 365 Days",
+      description: "100% Client-side uptime"
     }
   ];
 
   const faqs = [
-    { q: "How do I create my first invoice?", a: "Simply select an invoice type, fill in the details, and click generate. It takes less than 2 minutes!" },
-    { q: "Is Smart Invoice Generator free to use?", a: "Yes! Our basic features are completely free. Premium features are available with our paid plans." },
-    { q: "What invoice types are supported?", a: "We support Retail, GST, Freelance, Medical, Hotel, Proforma, and many other invoice types." },
-    { q: "Can I customize the invoice design?", a: "Absolutely! You can add your logo, change colors, and customize the layout to match your brand." },
-    { q: "What export formats are available?", a: "You can export invoices in PDF, PNG, and JPG formats for maximum compatibility." },
-    { q: "How do I add my company logo?", a: "Click the logo upload button in the invoice form and select your image file. We support PNG, JPG, and SVG formats." },
-    { q: "Can I save invoices for later editing?", a: "Yes, you can save invoices to your account and edit them anytime. Premium users get unlimited storage." },
-    { q: "Is my data secure?", a: "Absolutely. We use industry-standard encryption and never store sensitive financial information without permission." },
-    { q: "Can I share invoices directly?", a: "Yes! Share via WhatsApp, Email, SMS, or generate a shareable link with one click." },
-    { q: "Do you support multiple currencies?", a: "Yes, we support over 50 currencies with automatic formatting based on your selection." },
-    { q: "How do tax calculations work?", a: "Our system automatically calculates taxes based on the rates you specify and your location settings." },
-    { q: "Can I use this on mobile devices?", a: "Yes! Our platform is fully responsive and works perfectly on phones, tablets, and desktops." },
-    { q: "What languages are supported?", a: "Currently we support English and Hindi, with more languages being added regularly." },
-    { q: "How do I apply discounts?", a: "You can add percentage or fixed amount discounts to individual items or the entire invoice." },
-    { q: "Can I duplicate existing invoices?", a: "Yes, you can easily duplicate any invoice to create similar ones quickly." },
-    { q: "Is there a limit on invoice items?", a: "Free users can add up to 20 items per invoice. Premium users have unlimited items." },
-    { q: "How do I add payment terms?", a: "Payment terms can be added in the invoice details section with customizable text." },
-    { q: "Can I track invoice payments?", a: "Premium users can track payment status and send payment reminders automatically." },
-    { q: "Do you provide invoice templates?", a: "Yes, we offer dozens of professional templates for different industries and use cases." },
-    { q: "How do I contact customer support?", a: "You can reach us via email, phone, or live chat. We typically respond within 2 hours." },
-    { q: "Can I integrate with accounting software?", a: "Yes, we offer integrations with QuickBooks, Xero, and other popular accounting platforms." },
-    { q: "What if I make a mistake on an invoice?", a: "You can easily edit and regenerate invoices. We also keep a version history for reference." },
-    { q: "Do you offer bulk invoice generation?", a: "Premium users can generate multiple invoices at once using our batch processing feature." },
-    { q: "Can I set up recurring invoices?", a: "Yes, you can set up automatic recurring invoices for subscription or regular billing." },
-    { q: "How do I backup my invoices?", a: "All invoices are automatically backed up to the cloud. You can also export them for local storage." },
-    { q: "Is there an API available?", a: "Yes, we offer a REST API for developers who want to integrate invoice generation into their applications." },
-    { q: "What payment methods do you accept?", a: "We accept all major credit cards, PayPal, and bank transfers for premium subscriptions." },
-    { q: "Can I cancel my subscription anytime?", a: "Yes, you can cancel anytime. Your account will remain active until the end of your billing period." },
-    { q: "Do you offer refunds?", a: "We offer a 30-day money-back guarantee for all premium subscriptions." },
-    { q: "How do I upgrade to premium?", a: "Click the upgrade button in your dashboard or contact our sales team for enterprise plans." }
-  ];
-
-  const supportChannels = [
-    {
-      icon: MessageCircle,
-      title: "Live Chat",
-      description: "Get instant help with our live chat support",
-      action: "Start Chat"
-    },
-    {
-      icon: Mail,
-      title: "Email Support",
-      description: "Send detailed questions via email",
-      action: "Send Email"
-    },
-    {
-      icon: Phone,
-      title: "Phone Support",
-      description: "Speak directly with our support team",
-      action: "Call Now"
-    }
+    { q: "Is Smart Invoice Forge 100% free?", a: "Yes! Creating, customizing, and exporting PDF/PNG invoices is completely free without limits or subscriptions." },
+    { q: "Where is my invoice data stored?", a: "Your invoice data is saved locally inside your browser's LocalStorage. No data is sent or saved on external servers." },
+    { q: "Can I generate GST Tax Invoices in India?", a: "Yes, our GST Invoice layout automatically calculates CGST, SGST, IGST, and prints your GSTIN registration number." },
+    { q: "What currencies are supported?", a: "We support INR (₹), USD ($), EUR (€), GBP (£), AED, CAD, AUD, and SGD with automatic symbol formatting." },
+    { q: "How do I add my company logo to invoices?", a: "Click 'Upload Logo' in the invoice form. Your logo is converted locally to Base64 and embedded cleanly into PDFs." },
+    { q: "What export formats are supported?", a: "You can download your generated invoice as a vector PDF, high-res PNG image, or JPG image." },
   ];
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${isDarkMode ? 'dark bg-gray-900' : 'bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50'}`}>
+    <div className={`min-h-screen transition-colors duration-300 relative overflow-hidden ${isDarkMode ? 'dark bg-gray-950 text-white' : 'bg-gradient-to-br from-blue-50/80 via-indigo-50/50 to-purple-50/80 text-gray-900'}`}>
+      
+      {/* Glow Orbs */}
+      <div className="absolute top-20 left-1/4 w-96 h-96 bg-blue-500/10 dark:bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
+
       <Header isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
       
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-12 relative z-10">
         {/* Hero Section */}
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold text-gray-800 dark:text-white mb-6 animate-fade-in">
-            Contact Us
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-blue-500/10 dark:bg-blue-400/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 text-xs font-bold mb-4">
+            <Sparkles className="h-3.5 w-3.5" />
+            <span>We're Here to Help</span>
+          </div>
+          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-6">
+            Get In Touch With <span className="gradient-text">Our Support Team</span>
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Have questions about Smart Invoice Generator? We're here to help! 
-            Reach out to us through any of the channels below.
+          <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+            Have questions, feedback, or need help with custom billing formats? Drop us a line below.
           </p>
         </div>
 
-        {/* Contact Info Grid - 2 per row on mobile/tablet */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-16">
+        {/* Contact Info Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {contactInfo.map((info, index) => (
-            <Card key={index} className="p-4 lg:p-6 text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-              <info.icon className="h-8 lg:h-10 w-8 lg:w-10 text-blue-500 mx-auto mb-4" />
-              <h3 className="text-sm lg:text-lg font-semibold text-gray-800 dark:text-white mb-2">
+            <Card key={index} className="p-6 glass-card rounded-2xl text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <div className="p-3.5 rounded-2xl bg-blue-500/10 text-blue-600 dark:text-blue-400 w-fit mx-auto mb-4">
+                <info.icon className="h-6 w-6" />
+              </div>
+              <h3 className="text-base font-bold text-gray-900 dark:text-white mb-1">
                 {info.title}
               </h3>
-              <p className="text-blue-600 dark:text-blue-400 font-medium mb-1 text-xs lg:text-base">
+              <p className="text-blue-600 dark:text-blue-400 font-bold text-sm mb-1">
                 {info.content}
               </p>
-              <p className="text-gray-600 dark:text-gray-300 text-xs lg:text-sm">
+              <p className="text-xs text-gray-500 dark:text-gray-400">
                 {info.description}
               </p>
             </Card>
           ))}
         </div>
 
-        {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-          {/* Contact Form */}
-          <Card className="p-8">
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
+        {/* Contact Form & Side Card */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-20">
+          <Card className="lg:col-span-2 p-8 glass-card rounded-3xl">
+            <h2 className="text-2xl font-extrabold text-gray-900 dark:text-white mb-6">
               Send us a Message
             </h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-5">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Full Name *
+                  <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 dark:text-gray-400 mb-2">
+                    Your Name *
                   </label>
                   <Input
                     type="text"
@@ -182,11 +144,12 @@ const Contact = () => {
                     value={formData.name}
                     onChange={handleInputChange}
                     required
-                    placeholder="Enter your full name"
+                    placeholder="John Doe"
+                    className="rounded-xl"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 dark:text-gray-400 mb-2">
                     Email Address *
                   </label>
                   <Input
@@ -195,13 +158,14 @@ const Contact = () => {
                     value={formData.email}
                     onChange={handleInputChange}
                     required
-                    placeholder="Enter your email"
+                    placeholder="john@company.com"
+                    className="rounded-xl"
                   />
                 </div>
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 dark:text-gray-400 mb-2">
                   Subject *
                 </label>
                 <Input
@@ -210,12 +174,13 @@ const Contact = () => {
                   value={formData.subject}
                   onChange={handleInputChange}
                   required
-                  placeholder="What's this about?"
+                  placeholder="Inquiry about custom invoice layout..."
+                  className="rounded-xl"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 dark:text-gray-400 mb-2">
                   Message *
                 </label>
                 <Textarea
@@ -223,99 +188,84 @@ const Contact = () => {
                   value={formData.message}
                   onChange={handleInputChange}
                   required
-                  rows={6}
-                  placeholder="Tell us more about your inquiry..."
+                  rows={5}
+                  placeholder="Type your message here..."
+                  className="rounded-xl"
                 />
               </div>
               
-              <Button type="submit" className="w-full">
+              <Button type="submit" size="lg" className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold shadow-lg shadow-blue-500/20">
                 <Send className="h-4 w-4 mr-2" />
                 Send Message
               </Button>
             </form>
           </Card>
 
-          {/* Support Channels - 2 per row on mobile */}
+          {/* Side Info */}
           <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
-              Other Ways to Reach Us
-            </h2>
-            
-            <div className="grid grid-cols-1 gap-6">
-              {supportChannels.map((channel, index) => (
-                <Card key={index} className="p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                  <div className="flex items-start space-x-4">
-                    <channel.icon className="h-8 w-8 text-blue-500 mt-1" />
-                    <div className="flex-1">
-                      <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
-                        {channel.title}
-                      </h3>
-                      <p className="text-gray-600 dark:text-gray-300 mb-4">
-                        {channel.description}
-                      </p>
-                      <Button variant="outline" size="sm">
-                        {channel.action}
-                      </Button>
-                    </div>
-                  </div>
-                </Card>
-              ))}
-            </div>
+            <Card className="p-8 glass-card rounded-3xl bg-gradient-to-br from-blue-600 to-purple-600 text-white shadow-xl">
+              <MessageCircle className="h-10 w-10 mb-4 opacity-90" />
+              <h3 className="text-xl font-bold mb-2">Instant Community Support</h3>
+              <p className="text-sm text-blue-100 opacity-90 leading-relaxed mb-6">
+                Have a quick question? Check out our frequently asked questions below or drop an email directly.
+              </p>
+              <div className="space-y-3 text-xs text-blue-100">
+                <div className="flex items-center">
+                  <span className="h-2 w-2 rounded-full bg-emerald-400 mr-2" />
+                  <span>Free & Unlimited Usage</span>
+                </div>
+                <div className="flex items-center">
+                  <span className="h-2 w-2 rounded-full bg-emerald-400 mr-2" />
+                  <span>No Account / Login Required</span>
+                </div>
+                <div className="flex items-center">
+                  <span className="h-2 w-2 rounded-full bg-emerald-400 mr-2" />
+                  <span>PDF, PNG & JPG Export</span>
+                </div>
+              </div>
+            </Card>
           </div>
         </div>
 
-        {/* FAQ Section - 2 per row */}
+        {/* FAQ Section */}
         <div className="mb-16">
-          <div className="text-center mb-12">
-            <HelpCircle className="h-16 w-16 text-blue-500 mx-auto mb-4" />
-            <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-4">
+          <div className="text-center max-w-xl mx-auto mb-12">
+            <div className="p-3.5 rounded-2xl bg-blue-500/10 text-blue-600 dark:text-blue-400 w-fit mx-auto mb-4">
+              <HelpCircle className="h-8 w-8" />
+            </div>
+            <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white mb-3">
               Frequently Asked Questions
             </h2>
-            <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Find quick answers to common questions about Smart Invoice Generator
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Quick answers to common questions about invoice creation
             </p>
           </div>
           
-          <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="max-w-4xl mx-auto space-y-4">
             {faqs.map((faq, index) => (
-              <Card key={index} className="overflow-hidden">
+              <Card key={index} className="glass-card rounded-2xl overflow-hidden border">
                 <button
                   onClick={() => toggleFaq(index)}
-                  className="w-full p-4 lg:p-6 text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                  className="w-full p-5 text-left flex justify-between items-center hover:bg-gray-50/50 dark:hover:bg-gray-800/40 transition-colors"
                 >
-                  <div className="flex justify-between items-center">
-                    <h3 className="text-sm lg:text-lg font-medium text-gray-800 dark:text-white pr-4">
-                      {faq.q}
-                    </h3>
-                    {expandedFaq === index ? (
-                      <ChevronUp className="h-5 w-5 text-gray-500 flex-shrink-0" />
-                    ) : (
-                      <ChevronDown className="h-5 w-5 text-gray-500 flex-shrink-0" />
-                    )}
-                  </div>
+                  <h3 className="text-base font-bold text-gray-900 dark:text-white pr-4">
+                    {faq.q}
+                  </h3>
+                  {expandedFaq === index ? (
+                    <ChevronUp className="h-5 w-5 text-blue-500 shrink-0" />
+                  ) : (
+                    <ChevronDown className="h-5 w-5 text-gray-400 shrink-0" />
+                  )}
                 </button>
                 {expandedFaq === index && (
-                  <div className="px-4 lg:px-6 pb-4 lg:pb-6">
-                    <p className="text-gray-600 dark:text-gray-300 text-sm lg:text-base">{faq.a}</p>
+                  <div className="px-5 pb-5 border-t border-gray-100 dark:border-gray-800 pt-3">
+                    <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">{faq.a}</p>
                   </div>
                 )}
               </Card>
             ))}
           </div>
         </div>
-
-        {/* Location Map Placeholder */}
-        <Card className="p-8 text-center">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
-            Visit Our Office
-          </h2>
-          <div className="bg-gray-200 dark:bg-gray-700 h-64 rounded-lg flex items-center justify-center">
-            <div className="text-center">
-              <MapPin className="h-12 w-12 text-gray-400 mx-auto mb-2" />
-              <p className="text-gray-500 dark:text-gray-400">Interactive Map Coming Soon</p>
-            </div>
-          </div>
-        </Card>
       </div>
       
       <Footer />
